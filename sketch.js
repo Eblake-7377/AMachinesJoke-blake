@@ -1,13 +1,8 @@
-//building blocks
-let Puzz1;
-let Puzz2;
-let Puzz3;
-let puzz4;
-let Puzz5;
-//corners
-let CU1;
+//terrain
+let angle = 0;
+let maxD;
 
-let CD1;
+
 ////textures
 // let w;
 
@@ -20,16 +15,15 @@ let p = 0;
 let q = 0;
 let r = 0
 
-let x = 0;
+//falling feature
+let ff = false;
 
-function preload() {
-  // w = loadImage('w.png');
 
-}
+function preload() {}
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
-
   //fisrt layer
   CU1 = new puzzleCUp(-core / 2, 0, 0, core);
   CD1 = new puzzleCDown(-core / 2, -core, core, core);
@@ -51,37 +45,62 @@ function setup() {
   CD6 = new puzzleCDown(core / 2, 0, core * 2, core);
   CD7 = new puzzleCDown(core / 2, -core * 2, core, core);
   Puzz6 = new puzzlePiece(-core * 1.5, 0, 0, core);
-  Puzz7 = new puzzlePiece(-core * 1.5, core, core * 2, core + x);
-  
+  Puzz7 = new puzzlePiece(-core * 1.5, core, core * 2, core);
+
   //core/center on puzzle
   drop = new Drop(0, -core / 2, core / 2, core);
   drop1 = new Drop(0, -core / 2, core / 2, core / 2);
 
+  //terrain
+  maxD = dist(0, 0, 200, 200);
 
-  //drop
-  // WD = new Drop(core/2, core/2, 0, tab);
 }
 
 function draw() {
   background(0);
 
+  push();
+  directionalLight(255, 255, 255, 0, -1, 0);
+  translate(0, 200, -300);
+  rotateX(-QUARTER_PI);
+
+  let offset = 0;
+  for (let z = 0; z < height; z += core) {
+
+    for (let x = 0; x < width; x += core) {
+      push();
+      let d = dist(x, z, width / 2, height / 2);
+      let offset = map(d, 0, maxD, -PI, PI);
+      let a = angle + offset;
+      let h = floor(map(sin(a), -1, 1, 100, 200));
+      translate(x - width / 2, 0, z - height / 2);
+      // normalMaterial(10);
+      // stroke('MidnightBlue');
+      stroke(random(20, 155), random(20, 155), random(20, 155));
+      fill(0);
+      box(core, h, core);
+
+      // rect(x- width/2 + w/2, 0, w-2, h);
+      pop();
+    }
+    offset += 0.1;
+
+  }
+  angle -= 0.075;
+  pop();
+
   ////the continuous rotation of puzzle
-  p += 0.005;
-  r += 0.005;
-  rotateX(p);
-  // rotateZ(r);
+  // p += 0.005;
+  // rotateX(p);
+  rotateX(-QUARTER_PI);
+
   q += -0.005;
   rotateY(q);
-
-
-
-
 
   // check the keyboard
   handleKeyboard();
 
   // draw the puzzle piece
-
   //core puzzle
   CU1.display();
   CD1.display();
@@ -101,8 +120,21 @@ function draw() {
   drop.display();
   drop1.display();
 
-  //if (CD1.x > 400) {
-  // }
+  if (ff == true) {
+    drop.move(0, 3, 0);
+    drop1.move(0, 3, 0);
+
+    if (drop.y > 500) {
+      ff = false;
+        background(255);
+      
+
+    }
+
+
+  }
+
+
 }
 
 class puzzlePiece {
@@ -254,15 +286,10 @@ class Drop {
 }
 
 
-//if keycode == ENTER 
-
-//don't know if the move feature should be translate
-
 function handleKeyboard() {
 
   if (keyIsPressed) {
-    p = 5
-    p += 2;
+
 
     if (key == 'a') {
       CD7.move(0, -10, 0);
@@ -278,40 +305,42 @@ function handleKeyboard() {
     } else if (key == 'd') {
       Puzz4.move(0, 10, 0);
       CD3.move(-10, 0, 0);
-
     } else if (key == 'e') {
       CU5.move(0, 10, 0);
+      Puzz7.move(0, -10, 0);
     } else if (key == 'f') {
-      x = 10;
+      Puzz3.move(-10, 0, -10);
+      CU3.move(0, 10, 0);
     } else if (key == 'g') {
 
     } else if (key == 'h') {
-
-    } else if (key == 'i') {
-
-    } else if (key == 'j') {
-      Puzz3.move(-10, 0, -10);
-    } else if (key == 'k') {
-      CU3.move(0, 10, 0);
-    } else if (key == 'l') {
       CD2.move(0, -10, 0);
-    } else if (key == 'm') {
+    } else if (key == 'i') {
       Puzz2.move(0, -10, 0);
-    } else if (key == 'n') {
+    } else if (key == 'j') {
       Puzz1.move(10, 0, 0);
-    } else if (key == 'o') {
+    } else if (key == 'k') {
       CU2.move(10, 10, 0);
-    } else if (key == 'p') {
+    } else if (key == 'l') {
       CD1.move(0, -10, 0);
-    } else if (key == 'q') {
+    } else if (key == 'm') {
       CU1.move(0, 10, 0);
-    } else if (key == 'z') {
-      WD.move(0, p, 0);
-    } else if (key = ENTER === true) {
-      drop1.move();
-      drop2.move();
+    } else if (key == ENTER) {
+      // this.size=v
+      //   v++;
+    } else if (keyCode == BACKSPACE) {
+      // drop1.display(false);
+      // if (ff === true) {
+      //   drop.move(this.x, fall, this.z);
+      //   drop1.move(this.x, fall, this.z);
+      //   fall++;
+      //   if (fall > height) {
+      //     background(random(255));
+      //     stroke(random(255), random(255), random(255));
+      //   }
+      // }
+      ff = true;
     }
-
   }
 }
 
