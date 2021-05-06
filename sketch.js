@@ -91,7 +91,7 @@ function draw() {
   rotateX(-2.26893);
   rotateZ(0.785398);
 
-  stroke('#5500ff');
+  stroke('#ffff4d');
   fill(0);
 
   torus(width * 0.9, 160, 24, 4);
