@@ -53,7 +53,7 @@ function setup() {
   maxD = dist(0, 0, 200, 200);
 
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function draw() {
   background(0);
   push();
@@ -68,11 +68,13 @@ function draw() {
       let d = dist(x, z, width / 2, height / 2);
       let offset = map(d, 0, maxD, -PI, PI);
       let a = angle + offset;
-      let h = floor(map(sin(a), -1, 1, 100, 480));
+      let h = floor(map(sin(a), -1, 1, 100, 350));
       translate(x - width / 2, 0, z - height / 2);
       ambientMaterial(255);
       // stroke('MidnightBlue');
-      stroke(random(20, 155), random(20, 155), random(20, 155));
+      // stroke(random(20, 155), random(20, 155), random(20, 155));
+      stroke(random(20, 105), random(20, 55), random(20, 155));
+
       fill(0);
       box(core - 2, h, core - 2);
 
@@ -84,17 +86,14 @@ function draw() {
   }
   angle -= 0.075;
   pop();
-
+  //RING
   push();
   translate(0, 80, -200);
-
   rotateX(-2.26893);
   rotateZ(0.785398);
-
   stroke('#ffff4d');
   fill(0);
-
-  torus(width * 0.9, 160, 24, 4);
+  torus(width * 2, width, 24, 4);
   pop();
 
   push();
@@ -190,7 +189,7 @@ function draw() {
         let d = dist(x, z, width / 2, height / 2);
         let offset = map(d, 0, maxD, -PI, PI);
         let a = angle + offset;
-        let h = floor(map(sin(a), -1, 1, 100, 505));
+        let h = floor(map(sin(a), -1, 1, 100, 355));
         translate(x - width / 2, 0, z - height / 2);
         normalMaterial(10);
         // stroke('MidnightBlue');
@@ -207,33 +206,49 @@ function draw() {
     angle -= 0.075;
     pop();
 
+    //      push();
+    //   translate(0, 80, -200);
+    //   rotateX(-2.26893);
+    //   rotateZ(0.785398);
+    //   stroke('#ffff4d');
+    //   fill(255, 133, 215,60);
+    //   torus(width * 0.9, 160, 24, 4);
+
+    //     fill(255, 81, 232);
+    //       torus(width * 0.9, 150, 24, 4);
+
+    //   pop();
+
     if (drop.y > 600) {
       ff = false;
+      //core/center on puzzle
+      drop = new Drop(0, -core / 2, core / 2, core);
+      drop1 = new Drop(0, -core / 2, core / 2, core / 2);
+
+      //core
       CU1 = new puzzleCUp(-core / 2, 0, 0, core);
       CD1 = new puzzleCDown(-core / 2, -core, core, core);
-
       //2nd layer
       CU2 = new puzzleCUp(core / 2, core, -core, core);
-      Puzz1 = new puzzlePiece(core * 1.5, -core, -core, core);
-      Puzz2 = new puzzlePiece(core * 1.5, -core * 2, 0, core);
+      Puzz1 = new puzzlePiece(core * 1.5, -core / 2, core / 2, core);
+      Puzz2 = new puzzlePiece(core * 1.5, -core * 1.5, 0, core);
       CD2 = new puzzleCDown(-core * 1.5, -core * 2, core * 2, core);
-      CU3 = new puzzleCUp(-core * 1.5, core, -core, core);
-      Puzz3 = new puzzlePiece(-core * 1.5, -core, -core, core);
-      CD3 = new puzzleCDown(-core * 1.5, 0, 0, core);
-      CD4 = new puzzleCDown(-core * 1.5, -core, core, core);
-      CU4 = new puzzleCUp(core / 2, core, core, core);
+      Puzz3 = new puzzlePiece(-core * 1.5, 0, core + 10, core);
+      CU3 = new puzzleCUp(-core * 1.5, 0, core * 2, core);
+      CD3 = new puzzleCDown(-core * 1.5, core, core * 2, core);
+      CD4 = new puzzleCDown(core / 2, -core, -core, core);
+      Puzz4 = new puzzlePiece(0, core, 0, core);
+      Puzz5 = new puzzlePiece(0, core, 2 * core, core);
+      CU4 = new puzzleCUp(-core * 1.5, -core, -core, core);
       CD5 = new puzzleCDown(-core / 2, -core, core * 2, core);
       CU5 = new puzzleCUp(-core * 1.5, core, core, core);
       Puzz4 = new puzzlePiece(-core * 1.5, core, core * 2, core);
       Puzz5 = new puzzlePiece(-core * 1.5, 0, core * 2, core);
-      CD6 = new puzzleCDown(core / 2, 0, core * 2, core);
-      CD7 = new puzzleCDown(core / 2, -core * 2, core, core);
+      CD6 = new puzzleCDown(core, 0, core * 2, core);
+      CD7 = new puzzleCDown(core, -core * 2, core, core);
       Puzz6 = new puzzlePiece(-core * 1.5, 0, 0, core);
       Puzz7 = new puzzlePiece(-core * 1.5, core, core * 2, core);
 
-      //core/center on puzzle
-      drop = new Drop(0, -core / 2, core / 2, core);
-      drop1 = new Drop(0, -core / 2, core / 2, core / 2);
     }
 
 
